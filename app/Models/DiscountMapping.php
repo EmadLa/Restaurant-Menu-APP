@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,8 +12,13 @@ class DiscountMapping extends Model
     use HasFactory;
 
     protected $fillable = [
-        'discount_id', 'category_id', 'item_id'
+        'user_id', 'discount_id', 'category_id', 'item_id'
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function discount(): BelongsTo
     {
@@ -27,5 +33,11 @@ class DiscountMapping extends Model
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class, 'item_id');
+    }
+
+    public function activeDiscount()
+    {
+        return $this->discount()->where('start_date', '<=', Carbon::now())
+            ->where('end_date', '>=', Carbon::now());
     }
 }

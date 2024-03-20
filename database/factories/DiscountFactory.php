@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Discount;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,8 +22,10 @@ class DiscountFactory extends Factory
     {
         $startDate = $this->faker->dateTimeBetween('-1 month', '+1 month'); // Generate random start date within the next month
         $endDate = $this->faker->dateTimeBetween($startDate, $startDate->format('Y-m-d') . ' 23:59:59'); // Generate random end date on the same day as start date
+        $restaurant = User::query()->where('role', 'restaurant')->first();
 
         return [
+            'user_id' => $restaurant->id,
             'value' => fake()->randomFloat(2, 0, 500),
             'start_date' => $startDate,
             'end_date' => $endDate,

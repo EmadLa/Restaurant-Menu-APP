@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->double('value');
             $table->string('start_date');
             $table->string('end_date');

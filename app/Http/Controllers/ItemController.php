@@ -7,6 +7,7 @@ use App\Http\Requests\StoreItemRequest;
 use App\Http\Resources\ItemResource;
 use App\Models\Item;
 use App\Repositories\ItemRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,7 +25,7 @@ class ItemController extends Controller
         $query = Item::query();
         if (Auth::user()->role != "admin")
             $query->where('user_id', Auth::user()->id);
-        $items = $query->with('category')->get();
+        $items = $query->with(['category', 'activeDiscount'])->get();
         return $this->sendResponse(ItemResource::collection($items), "Items List");
     }
 

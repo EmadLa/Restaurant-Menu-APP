@@ -33,7 +33,6 @@ class CategorySeeder extends Seeder
                 'path' => $parent->path . $parent->id,
                 'last_child' => true,
             ]);
-
             return;
         }
 

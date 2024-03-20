@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\DiscountMappingController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -36,6 +38,14 @@ Route::middleware('auth:api')->group(function () {
         Route::get('items', 'index');
         Route::post('item/store', 'store');
         Route::post('item/delete', 'destroy');
+    });
+
+    Route::controller(DiscountController::class)->group(function () {
+        Route::get('discounts-active', 'index');
+    });
+
+    Route::controller(DiscountMappingController::class)->group(function () {
+        Route::post('discount-new', 'store');
     });
 });
 
