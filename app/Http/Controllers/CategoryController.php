@@ -26,7 +26,7 @@ class CategoryController extends Controller
         $query = Category::query();
         if (Auth::user()->role != "admin")
             $query->where('user_id', Auth::user()->id);
-        $categories = $query->whereNull('parent_id')->get();
+        $categories = $query->whereNull('parent_id')->with(['parent', 'children', 'getAllChildren'])->get();
         return $this->sendResponse(CategoryResource::collection($categories), "Categories");
     }
 
