@@ -32,7 +32,7 @@ class UserController extends Controller
         }
 
         return $this->sendResponse([
-            'toke' => $user->createToken('authToken')->accessToken,
+            'token' => $user->createToken('authToken')->accessToken,
             'user' => $user
         ], 'User created');
     }
