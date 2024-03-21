@@ -18,8 +18,6 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'parent_id' => $this->parent_id,
-            'parent_name' => $this->parent->first()?->name,
-            'child_name' => $this->children->first()?->name,
             'path' => $this->path,
             'is_item' => $this->last_child,
             'children' => $this->last_child ? "" : CategoryResource::collection($this->getAllChildren),
