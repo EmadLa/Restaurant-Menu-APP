@@ -25,7 +25,7 @@ class ItemController extends Controller
         $query = Item::query();
         if (Auth::user()->role != "admin")
             $query->where('user_id', Auth::user()->id);
-        $items = $query->with(['category', 'activeDiscount'])->get();
+        $items = $query->with(['category.getAllParents.discountMappings.activeDiscount' => fn($query) => $query->orderByDesc('id'), 'activeDiscount'])->get();
         return $this->sendResponse(ItemResource::collection($items), "Items List");
     }
 

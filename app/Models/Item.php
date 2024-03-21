@@ -42,16 +42,18 @@ class Item extends Model
         return round($this->activeDiscount?->first()?->activeDiscount?->value, 2);
     }
 
-    public function getItemCategoryDiscountValueAttribute():float
+    public function getItemCategoryDiscountValueAttribute(): float
     {
-
-        return 3.3;
+        $categoryIds = explode(',', $this->category->path);
+        $discountMapping = DiscountMapping::query()->whereIn('category_id', array_reverse($categoryIds))->with('activeDiscount')->first();
+        return $discountMapping->activeDiscount?->value ?? 0.0;
     }
 
-    public function getPriceAfterDiscountAttribute()
+    public function getPriceAfterDiscountAttribute(): float
     {
         $price = $this->attributes['price'];
-        $itemDiscount = $this->activeDiscount?->first()->activeDiscount?->value;
-        $categoryDiscount = $this->item_discount_category_value;
+        $itemDiscount = $this->item_discount_value;
+        $categoryDiscount = $this->item_category_discount_value;
+        return round($price - $itemDiscount - $categoryDiscount, 2) < 0 ? 0 : round($price - $itemDiscount - $categoryDiscount, 2);
     }
 }

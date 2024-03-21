@@ -34,11 +34,19 @@ class Category extends Model
         return $this->hasMany(Item::class, 'category_id');
     }
 
+    public function discountMappings(): HasMany
+    {
+        return $this->hasMany(DiscountMapping::class, 'category_id');
+    }
+
     public function getAllChildren()
     {
         return $this->children()->with('getAllChildren');
     }
-
+    public function getAllParents()
+    {
+        return $this->parent()->with(['getAllParents', 'discountMappings']);
+    }
     public function getChildCountAttribute()
     {
         if ($this->attributes['path'])

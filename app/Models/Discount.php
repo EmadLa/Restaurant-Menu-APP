@@ -39,7 +39,7 @@ class Discount extends Model
     public function endDate(): Attribute
     {
         return Attribute::make(
-            get: fn(string $value) => Carbon::parse($this->attributes['end_date'])->format('Y-m.d h:i a'),
+            get: fn(string $value) => Carbon::parse($this->attributes['end_date'])->format('Y-m-d h:i a'),
         );
     }
 }
